@@ -2,13 +2,21 @@
   "name": "namaste-react-workspacce",
   "version": "1.0.0",
   "description": "learning React and making first application",
-  "main": "App.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "npx parcel index.html"
   },
   "author": "Gautam Shandilya",
   "license": "ISC",
   "dependencies": {
-    "parcel": "^2.10.2"
+    "parcel": "^2.10.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "browserslist": [
+    "last two versions"
+  ],
+  "devDependencies": {
+    "process": "^0.11.10"
   }
 }
