@@ -1,2 +1,2 @@
 export const CDN_URL = "https://res.cloudinary.com/swiggy/image/upload/"
-export const LOGO_URL = "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1899&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+export const LOGO_URL = "https://assets-v2.scaler.com/packs/images/hour-glass.79dc5a.svg"
