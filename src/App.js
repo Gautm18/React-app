@@ -7,45 +7,50 @@ import AboutUs from "./components/AboutUs";
 import ContactUs from "./components/ContactUs";
 import Error from "./components/Error";
 import ResMenu from "./components/ResMenu";
+import { Provider } from "react-redux";
+import appStore from "./utils/appStore";
+import Cart from "./components/Cart";
 
 const MainApp = () => {
   return (
     <>
-      <HeaderComp />
-      <Outlet/>
+      <Provider store={appStore}>
+        <HeaderComp />
+        <Outlet />
+      </Provider>
     </>
   );
 };
 
-const appRouter = createBrowserRouter(
-  [
-    {
-      path: "/",
-      element: <MainApp/>,
-      errorElement: <Error/>,
-      children:[
-        {
-          path: "/",
-          element: <Body/>
-        },
-        {
-          path: "/about",
-          element: <AboutUs/>
-        },
-        {
-          path: "/contact-us",
-          element: <ContactUs/>
-        },
-        {
-          path: "/restaurants/:id",
-          element: <ResMenu/>
-        }
-      ]
-
-    }
-    
-  ]
-)
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainApp />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/",
+        element: <Body />,
+      },
+      {
+        path: "/about",
+        element: <AboutUs />,
+      },
+      {
+        path: "/contact-us",
+        element: <ContactUs />,
+      },
+      {
+        path: "/restaurants/:id",
+        element: <ResMenu />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
+      },
+    ],
+  },
+]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<RouterProvider router={appRouter} />);

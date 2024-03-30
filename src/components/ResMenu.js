@@ -1,40 +1,52 @@
-import { useEffect, useState } from "react";
+import useRestaurantMenu from "../utils/useRestaurantMenu";
+import {useParams} from "react-router-dom";
+import ResItemCategory from "./ResItemCategory";
+import { useState } from "react";
 
 const ResMenu = () => {
 
 
+  const {id} = useParams()
+  console.log("resID",id)
 
-  const [resInfo, setResInfo] = useState(null)
+  const resInfo = useRestaurantMenu(id)
+  console.log("resinfo", resInfo)
 
+  const [showIndex, setShowIndex] = useState(null)
 
-  useEffect(  () => {
-    fetchMenuData()
-  }, []);
- 
-
+  const handleItemClick = (index) => {
+    if (showIndex === index) {
+      setShowIndex(null); 
+    } else {
+      setShowIndex(index); 
+    }
+  };
   
-  const fetchMenuData = async () => {
-    const menuData = await fetch ("https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=28.627367315189556&lng=77.02706728130579&restaurantId=24197&catalog_qa=undefined&submitAction=ENTER")
-    const json = await menuData.json()
-
-    console.log("menuJson",json)
-    setResInfo(json.data)
+  const openAccordian = (index) => {
+    return index === showIndex 
   }
-
  
-
-  const itemCards = resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2].card?.card
-  console.log("hello", itemCards);
+ 
+  const resName =  resInfo?.cards[2]?.card?.card?.info?.name
+  const itemCard = resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2].card?.card?.itemCards || [] //DOUBT, first time it is taking empty array in another time it is taking the value of the array. why?
+  const itemCategory = resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(c => c.card?.card?.["@type"]==="type.googleapis.com/swiggy.presentation.food.v2.ItemCategory") || []
+  console.log(itemCategory)
+  console.log("hello", itemCard);
   
   return (
     <>
-      <div>hello</div>
-      <div>
-        {/* <ul>
-          {itemCards.map((item)=>(
-            <li>{item?.card?.info?.name}</li>
+      <div className="text-center">
+        <div className="font-bold p-5 text-stone-800 ">{resName}</div>
+        <ul>
+          {itemCategory.map((category, index)=>(
+            <li >
+            <ResItemCategory //lifting up the state
+             menuCategory = {category?.card?.card}
+             isOpen={openAccordian(index) }
+             handleClick={() => handleItemClick(index)} // why we are calling a function for handle click but not for isOpen --> the reason is it is event handeler while in the isOpen props, its is just returning the value by comparision but in this prop it setting the value of the state variable in every click. 
+             /></li>
           ))}
-        </ul> */}
+        </ul>
       </div>
     </>
   );
